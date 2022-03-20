@@ -1,0 +1,18 @@
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.notFound {
+  font-size: 50px;
+  color: #fff;
+  text-align: center;
+}
+
+.notFoundLink {
+  font-size: 32px;
+  color: #fff;
+}
