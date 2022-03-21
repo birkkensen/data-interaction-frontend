@@ -1,31 +1,24 @@
+import Cookies from "universal-cookie";
 import { useEffect, useState } from "react";
 import { useParams, Params } from "react-router-dom";
 import { getProductById, addToCart } from "../../api";
-import Cookies from "universal-cookie";
+import { Product } from "../../interfaces";
 import { Navbar } from "../../components";
 import Button from "@mui/material/Button";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
+import { AddShoppingCart, ShoppingCartCheckout } from "@mui/icons-material";
 import "./index.css";
-interface Product {
-  _id: string;
-  productId: number;
-  name: string;
-  description: string;
-  image: string;
-  price: number;
-  qty: number;
-}
-const cookies = new Cookies();
+
 const ProductPage: React.FC = (): JSX.Element => {
+  const cookies = new Cookies();
   const [product, setProduct] = useState<Product>();
   const { id } = useParams<Readonly<Params<string>>>();
-  const productUri: string = "/api/products/";
+
   useEffect(() => {
-    getProductById(productUri, id)
+    getProductById(id)
       .then((data) => setProduct(data.data))
       .catch((err) => console.log(err));
   }, [id]);
+
   const handleClick = async () => {
     await addToCart(id)
       .then((res) => {
@@ -34,7 +27,7 @@ const ProductPage: React.FC = (): JSX.Element => {
       })
       .catch((err) => console.log(err));
   };
-  if (!product) return <h1>Loading</h1>;
+
   return (
     <>
       <Navbar />
@@ -45,10 +38,10 @@ const ProductPage: React.FC = (): JSX.Element => {
             <h2 className="product-title">{product.name}</h2>
             <p className="product-desc">{product.description}</p>
             <p className="product-price">{product.price} kr</p>
-            <Button onClick={handleClick} variant="outlined" endIcon={<AddShoppingCartIcon />}>
+            <Button onClick={handleClick} variant="outlined" endIcon={<AddShoppingCart />}>
               Add to cart
             </Button>
-            <Button variant="contained" endIcon={<ShoppingCartCheckoutIcon />}>
+            <Button variant="contained" endIcon={<ShoppingCartCheckout />}>
               Buy now
             </Button>
           </div>

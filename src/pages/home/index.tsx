@@ -1,24 +1,15 @@
 import { useState, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { Navbar, ProductGrid } from "../../components";
 import { getAllProducts } from "../../api";
 import "./index.css";
-
-interface Products {
-  _id: string;
-  productId: number;
-  name: string;
-  description: string;
-  image: string;
-  price: number;
-  qty: number;
-}
+import { Product } from "../../interfaces";
 
 const Home: React.FC = (): JSX.Element => {
-  const allProductsUri: string = "/api/products";
-  const [products, setProducts] = useState<Products[]>();
+  const [products, setProducts] = useState<Product[]>();
 
   useEffect(() => {
-    getAllProducts(allProductsUri)
+    getAllProducts()
       .then((data) => setProducts(data.data))
       .catch((err) => console.log(err));
   }, []);
@@ -32,8 +23,7 @@ const Home: React.FC = (): JSX.Element => {
           products.map((product) => {
             return (
               <ProductGrid
-                key={product._id}
-                productId={product.productId}
+                key={uuidv4()}
                 name={product.name}
                 description={product.description}
                 image={product.image}

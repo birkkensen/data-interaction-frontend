@@ -1,14 +1,7 @@
 import { Link } from "react-router-dom";
 import "./index.css";
-interface Products {
-  _id: string;
-  productId: number;
-  name: string;
-  description: string;
-  image: string;
-  price: number;
-}
-const ProductGrid: React.FC<Products> = ({ _id, name, description, image, price }) => {
+import { Product } from "../../interfaces";
+const ProductGrid: React.FC<Product> = ({ _id, name, description, image, price }) => {
   return (
     <Link className="product-link" to={`product/${_id}`}>
       <img className="product-image" src={image} alt={name} />
