@@ -42,4 +42,16 @@ const getCartItems = async (id: Cookies): Promise<AxiosResponse> => {
   return response;
 };
 
-export { getAllProducts, getProductById, addToCart, getCartItems };
+const removeItemFromCart = async (cartId: Cookies, id: string): Promise<AxiosResponse> => {
+  const response = await axios({
+    method: "delete",
+    url: `${BASE_URL_CART}`,
+    data: {
+      cartId,
+      id,
+    },
+  });
+  return response;
+};
+
+export { getAllProducts, getProductById, addToCart, getCartItems, removeItemFromCart };

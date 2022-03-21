@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useParams, Params } from "react-router-dom";
 import { getProductById, addToCart } from "../../api";
 import { Product } from "../../interfaces";
-import { Navbar } from "../../components";
 import Button from "@mui/material/Button";
 import { AddShoppingCart, ShoppingCartCheckout } from "@mui/icons-material";
 import "./index.css";
@@ -30,7 +29,6 @@ const ProductPage: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <Navbar />
       {product && (
         <div className="product-grid">
           <img className="product-image" src={product.image} alt={product.name} />
