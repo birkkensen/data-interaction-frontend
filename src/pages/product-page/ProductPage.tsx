@@ -17,7 +17,7 @@ const ProductPage: React.FC = (): JSX.Element => {
       .then((data) => setProduct(data.data))
       .catch((err) => console.log(err));
   }, [id]);
-
+  console.log(product);
   const handleClick = async () => {
     await addToCart(id)
       .then((res) => {
@@ -25,6 +25,7 @@ const ProductPage: React.FC = (): JSX.Element => {
         cookies.set("cartId", res.data, { path: "/", expires: new Date(Date.now() + 86400000) });
       })
       .catch((err) => console.log(err));
+    window.location.reload();
   };
 
   return (
@@ -36,12 +37,19 @@ const ProductPage: React.FC = (): JSX.Element => {
             <h2 className="product-title">{product.name}</h2>
             <p className="product-desc">{product.description}</p>
             <p className="product-price">{product.price} kr</p>
-            <Button onClick={handleClick} variant="outlined" endIcon={<AddShoppingCart />}>
-              Add to cart
+            <Button
+              disabled={!product.inStock}
+              onClick={handleClick}
+              variant="outlined"
+              endIcon={<AddShoppingCart />}
+            >
+              {product.inStock ? "Add to cart" : "Out of stock"}
             </Button>
-            <Button variant="contained" endIcon={<ShoppingCartCheckout />}>
-              Buy now
-            </Button>
+            {product.inStock && (
+              <Button variant="contained" endIcon={<ShoppingCartCheckout />}>
+                Buy now
+              </Button>
+            )}
           </div>
         </div>
       )}

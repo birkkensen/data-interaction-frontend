@@ -15,9 +15,9 @@ const Navbar = () => {
   useEffect(() => {
     getCartItems(cartId).then((data) => {
       const cart: CartItems = data.data;
-      setProductCount(cart.products.length);
+      setProductCount(cart?.products.length);
     });
-  });
+  }, [cartId]);
   return (
     <nav>
       <Link to="/">

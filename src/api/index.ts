@@ -1,8 +1,11 @@
 import Cookies from "universal-cookie";
 import axios, { AxiosResponse } from "axios";
+import { CartItems, CheckoutForm } from "../interfaces";
 
 const BASE_URL_PRODUCTS: string = "http://localhost:8080/api/products";
 const BASE_URL_CART: string = "http://localhost:8080/api/cart";
+const BASE_URL_LOGIN: string = "http://localhost:8080/api/warehouse/login";
+const BASE_URL_EMPLOYEE: string = "http://localhost:8080/api/orders";
 
 const cookies = new Cookies();
 
@@ -54,4 +57,60 @@ const removeItemFromCart = async (cartId: Cookies, id: string): Promise<AxiosRes
   return response;
 };
 
-export { getAllProducts, getProductById, addToCart, getCartItems, removeItemFromCart };
+const loginUser = async (email: string, password: string): Promise<AxiosResponse> => {
+  const response = await axios({
+    method: "post",
+    url: `${BASE_URL_LOGIN}`,
+    data: {
+      email,
+      password,
+    },
+  });
+  return response;
+};
+
+const placeOrder = async (
+  formData: CheckoutForm,
+  cartItems: CartItems | undefined
+): Promise<AxiosResponse> => {
+  const response = await axios({
+    method: "post",
+    url: `${BASE_URL_EMPLOYEE}`,
+    data: {
+      formData,
+      products: cartItems,
+    },
+  });
+  return response;
+};
+
+const getAllOrders = async (token: string | null): Promise<AxiosResponse> => {
+  const response = await axios({
+    method: "get",
+    url: `${BASE_URL_EMPLOYEE}`,
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
+const clearCart = async (): Promise<number> => {
+  const response = await axios({
+    method: "delete",
+    url: `${BASE_URL_CART}/clear`,
+  });
+  return response.status;
+};
+
+export {
+  getAllProducts,
+  getProductById,
+  addToCart,
+  getCartItems,
+  removeItemFromCart,
+  loginUser,
+  getAllOrders,
+  placeOrder,
+  clearCart,
+};

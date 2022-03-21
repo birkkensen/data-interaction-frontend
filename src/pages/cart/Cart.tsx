@@ -1,6 +1,7 @@
 import Cookies from "universal-cookie";
 import { v4 as uuidv4 } from "uuid";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { getCartItems, removeItemFromCart } from "../../api";
 import { CartItems } from "../../interfaces";
 import CloseIcon from "@mui/icons-material/Close";
@@ -20,7 +21,9 @@ const Cart: React.FC = (): JSX.Element => {
 
   const handleClick = async (id: string) => {
     await removeItemFromCart(cartId, id).catch((err) => console.log(err));
+    window.location.reload();
   };
+
   let sum: number = 0;
   return (
     <section className="cart-section">
@@ -48,12 +51,18 @@ const Cart: React.FC = (): JSX.Element => {
           </div>
         );
       })}
-      <SumOfProducts sum={sum} />
+      <SumOfProducts sum={sum} cart={cart} />
     </section>
   );
 };
 
-const SumOfProducts = ({ sum }: { sum: number }): JSX.Element => {
+const SumOfProducts = ({
+  sum,
+  cart,
+}: {
+  sum: number;
+  cart: CartItems | undefined;
+}): JSX.Element => {
   return (
     <section className="cart-total-container">
       <div className="cart-total">
@@ -77,7 +86,16 @@ const SumOfProducts = ({ sum }: { sum: number }): JSX.Element => {
           <b>{sum},00 kr</b>
         </p>
       </div>
-      <Button disabled size="large" style={{ marginTop: "16px" }} variant="contained" fullWidth>
+      <Button
+        disabled={cart?.products.length ? false : true}
+        size="large"
+        style={{ marginTop: "16px" }}
+        variant="contained"
+        fullWidth
+        onClick={() => {
+          window.location.href = "/cart/checkout";
+        }}
+      >
         Checkout
       </Button>
     </section>

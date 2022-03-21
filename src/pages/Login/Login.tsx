@@ -1,7 +1,8 @@
 import "./index.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { User } from "../../interfaces";
-const Login = () => {
+import { loginUser } from "../../api";
+const Login: React.FC = (): JSX.Element => {
   const [formData, setFormData] = useState<User>({
     email: "",
     password: "",
@@ -15,8 +16,16 @@ const Login = () => {
       [e.target.name]: e.target.value,
     }));
   };
-  const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    await loginUser(formData.email, formData.password)
+      .then((data) => {
+        if (data.statusText === "OK") {
+          localStorage.setItem("token", data.data["token"]);
+          window.location.href = "/dashboard";
+        }
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <>
