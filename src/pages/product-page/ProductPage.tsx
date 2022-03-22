@@ -3,9 +3,6 @@ import { useEffect, useState } from "react";
 import { useParams, Params } from "react-router-dom";
 import { getProductById, addToCart } from "../../api";
 import { Product } from "../../interfaces";
-import Button from "@mui/material/Button";
-import { AddShoppingCart, ShoppingCartCheckout } from "@mui/icons-material";
-import "./index.css";
 
 const ProductPage: React.FC = (): JSX.Element => {
   const cookies = new Cookies();
@@ -17,7 +14,6 @@ const ProductPage: React.FC = (): JSX.Element => {
       .then((data) => setProduct(data.data))
       .catch((err) => console.log(err));
   }, [id]);
-  console.log(product);
   const handleClick = async () => {
     await addToCart(id)
       .then((res) => {
@@ -29,31 +25,45 @@ const ProductPage: React.FC = (): JSX.Element => {
   };
 
   return (
-    <>
+    <div className="mt-32  w-full">
       {product && (
-        <div className="product-grid">
-          <img className="product-image" src={product.image} alt={product.name} />
-          <div className="product-description-grid">
-            <h2 className="product-title">{product.name}</h2>
-            <p className="product-desc">{product.description}</p>
-            <p className="product-price">{product.price} kr</p>
-            <Button
+        <div className="flex mx-10 flex-col lg:flex-row justify-around">
+          <div className="w-full md:w-5/6 lg:w-3/6 mb-6 md:p-6">
+            <h2 className="text-4xl font-bold">{product.name}</h2>
+            <p className="text-xl my-6">{product.price} kr</p>
+            <p className="mb-6">
+              {product.description} Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cumque
+              dolorem quia nostrum, consequuntur incidunt aliquam exercitationem iusto doloribus
+              numquam atque?
+            </p>
+            <p className="mb-2">Variant</p>
+            <div className="flex flex-col md:flex-row mb-6 gap-x-8">
+              <div className="py-5 px-3 rounded-xl border-2 border-cyan-600 mb-6 md:mb-0">
+                <p className="font-bold">With Suit</p>
+                <p className="text-gray-700">Perfect if you want a suite to your fella</p>
+              </div>
+              <div className="py-5 px-3 rounded-xl border-2 border-gray-200">
+                <p className="font-bold">Without Suit</p>
+                <p className="text-gray-700">Perfect if you want a suite to your fella</p>
+              </div>
+            </div>
+            <button
               disabled={!product.inStock}
               onClick={handleClick}
-              variant="outlined"
-              endIcon={<AddShoppingCart />}
+              className="w-full py-3 bg-cyan-600 text-white rounded-lg mb-6 transition duration-300 active:ease-in-out active:bg-cyan-500 active:scale-95"
             >
               {product.inStock ? "Add to cart" : "Out of stock"}
-            </Button>
+            </button>
             {product.inStock && (
-              <Button variant="contained" endIcon={<ShoppingCartCheckout />}>
+              <button className="w-full py-3 border-2 border-cyan-600 text-black rounded-lg transition duration-300 active:ease-in-out active:scale-95">
                 Buy now
-              </Button>
+              </button>
             )}
           </div>
+          <img className="w-full object-cover lg:w-3/6" src={product.image} alt={product.name} />
         </div>
       )}
-    </>
+    </div>
   );
 };
 

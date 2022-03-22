@@ -16,6 +16,7 @@ const getAllProducts = async (): Promise<AxiosResponse> => {
   });
   return response;
 };
+
 const getProductById = async (id: string | undefined): Promise<AxiosResponse> => {
   const response = await axios({
     method: "get",
@@ -23,6 +24,7 @@ const getProductById = async (id: string | undefined): Promise<AxiosResponse> =>
   });
   return response;
 };
+
 const addToCart = async (id: string | undefined): Promise<AxiosResponse> => {
   const cartId = cookies.get("cartId");
   const data = {

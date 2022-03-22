@@ -50,7 +50,10 @@ const Checkout = () => {
     e.preventDefault();
     await placeOrder(formData, cart)
       .then((res) => console.log(res.data))
-      .then(async () => await clearCart())
+      .then(async () => {
+        await clearCart();
+        cookies.remove("cartId");
+      })
       .then(() => (window.location.href = "/"))
       .catch((err) => console.log(err));
   };

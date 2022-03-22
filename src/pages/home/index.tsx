@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { ProductGrid } from "../../components";
 import { getAllProducts } from "../../api";
-// import "./index.css";
 import { Product } from "../../interfaces";
 
 const Home: React.FC = (): JSX.Element => {
@@ -18,7 +17,7 @@ const Home: React.FC = (): JSX.Element => {
       <FeaturedImage />
       <div className="bg-white">
         <div className="max-w-2x1 mx-auto py-16 px-14 sm:py-24 sm:px-6 lg:max-w-7x1 lg:px-8">
-          <h2 className="sr-only">Some stuff</h2>
+          <h2 className="text-stone-900 text-3xl mb-8 font-bold">Some stuff</h2>
           <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
             {products &&
               products.map((product) => {
@@ -42,10 +41,26 @@ const Home: React.FC = (): JSX.Element => {
 
 const FeaturedImage = (): JSX.Element => {
   return (
-    <div className="featured-container">
-      <img className="featured-image" src="./images/lego.jpg" alt="Lego" />
-      <h2 className="featured-title">Some whacky text</h2>
-    </div>
+    <section className="flex justify-center flex-col md:flex-row">
+      <div className="flex items-center bg-slate-100 h-auto">
+        <div className="ml-8 my-16 lg:w-5/6 p-4 lg:p-8">
+          <h1 className="text-3xl md:text-6xl text-stone-900 font-bold">Funny fellas</h1>
+          <p className="text-xl my-8 text-slate-500">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias, voluptatibus!
+          </p>
+          <button className="hover:bg-indigo-700 py-3 px-8 bg-indigo-600 text-white font-normal rounded">
+            Learn more
+          </button>
+        </div>
+      </div>
+      <div>
+        <img
+          className="w-full h-96 md:h-full object-center object-cover"
+          src="./images/lego3.jpg"
+          alt=""
+        />
+      </div>
+    </section>
   );
 };
 

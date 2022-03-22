@@ -1,10 +1,8 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Cookies from "universal-cookie";
-import Stack from "@mui/material/Stack";
 import Badge from "@mui/material/Badge";
-import { ShoppingBagOutlined, AccountCircleOutlined } from "@mui/icons-material";
-import "./index.css";
+import { AiOutlineShoppingCart, AiOutlineUser } from "react-icons/ai";
 import { getCartItems } from "../../api";
 import { CartItems } from "../../interfaces";
 
@@ -19,20 +17,20 @@ const Navbar = () => {
     });
   }, [cartId]);
   return (
-    <nav>
+    <nav className="fixed top-0 w-full bg-gray-900 flex justify-between items-center p-5 z-50">
       <Link to="/">
-        <h1>E-Commerce</h1>
+        <img className="h-12 w-12 rounded-full" src="./images/logo.jpg" alt="LOGO" />
       </Link>
-      <Stack spacing={2} justifyContent="space-between" direction="row">
+      <div className="flex">
         <Link to="/cart">
           <Badge badgeContent={productCount} color="primary">
-            <ShoppingBagOutlined color="primary" fontSize="large" />
+            <AiOutlineShoppingCart className="text-white text-3xl" />
           </Badge>
         </Link>
-        <Link to="/login">
-          <AccountCircleOutlined color="primary" fontSize="large" />
+        <Link className="ml-4" to="/login">
+          <AiOutlineUser className="text-white text-3xl" />
         </Link>
-      </Stack>
+      </div>
     </nav>
   );
 };

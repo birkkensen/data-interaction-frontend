@@ -5,7 +5,7 @@ const App = () => {
   return (
     <>
       <Navbar />
-      <div className="container2">
+      <div className="mt-16">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<ProductPage />} />
