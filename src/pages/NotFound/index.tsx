@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
-import "./index.css";
 function NotFound() {
   return (
-    <div className="container">
-      <h1 className="notFound">404 - Not Found!</h1>
-      <Link className="notFoundLink" to="/">
+    <div className="h-screen flex flex-col justify-center items-center">
+      <h1 className="text-4xl mb-4">404 - Not Found!</h1>
+      <Link
+        className="text-2xl underline text-purple-600 hover:text-purple-300 transition duration-300 hover:ease-in-out"
+        to="/"
+      >
         Go Home
       </Link>
     </div>

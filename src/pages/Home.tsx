@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { ProductGrid } from "../../components";
-import { getAllProducts } from "../../api";
-import { Product } from "../../interfaces";
+import { ProductGrid } from "../components";
+import { getAllProducts } from "../api";
+import { Product } from "../interfaces";
 
 const Home: React.FC = (): JSX.Element => {
   const [products, setProducts] = useState<Product[]>();

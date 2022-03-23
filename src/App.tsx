@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
 import { NotFound, Home, ProductPage, Cart, Login, Dashboard, Checkout } from "./pages";
-import { Navbar } from "./components";
+import { Navbar, Footer } from "./components";
 const App = () => {
   return (
     <>
       <Navbar />
-      <div className="mt-16">
+      <section className="mt-16">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<ProductPage />} />
@@ -15,7 +15,8 @@ const App = () => {
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </div>
+      </section>
+      <Footer />
     </>
   );
 };

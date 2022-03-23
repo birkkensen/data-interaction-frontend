@@ -1,8 +1,8 @@
 import Cookies from "universal-cookie";
 import { useEffect, useState } from "react";
 import { useParams, Params } from "react-router-dom";
-import { getProductById, addToCart } from "../../api";
-import { Product } from "../../interfaces";
+import { getProductById, addToCart } from "../api";
+import { Product } from "../interfaces";
 
 const ProductPage: React.FC = (): JSX.Element => {
   const cookies = new Cookies();
@@ -27,7 +27,7 @@ const ProductPage: React.FC = (): JSX.Element => {
   return (
     <div className="mt-32  w-full">
       {product && (
-        <div className="flex mx-10 flex-col lg:flex-row justify-around">
+        <div className="flex mx-10 flex-col justify-around md:items-center lg:flex-row ">
           <div className="w-full md:w-5/6 lg:w-3/6 mb-6 md:p-6">
             <h2 className="text-4xl font-bold">{product.name}</h2>
             <p className="text-xl my-6">{product.price} kr</p>
@@ -60,7 +60,11 @@ const ProductPage: React.FC = (): JSX.Element => {
               </button>
             )}
           </div>
-          <img className="w-full object-cover lg:w-3/6" src={product.image} alt={product.name} />
+          <img
+            className="w-full object-cover md:w-5/6 lg:w-3/6 rounded-md"
+            src={product.image}
+            alt={product.name}
+          />
         </div>
       )}
     </div>

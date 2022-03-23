@@ -1,4 +1,4 @@
-import { getAllOrders } from "../../api";
+import { getAllOrders } from "../api";
 import { useEffect, useState } from "react";
 const Dashboard: React.FC = (): JSX.Element => {
   const [orders, setOrders] = useState();

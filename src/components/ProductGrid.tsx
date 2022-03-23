@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Product } from "../../interfaces";
+import { Product } from "../interfaces";
 const ProductGrid: React.FC<Product> = ({ _id, name, description, image, price }) => {
   return (
     <Link className="group" to={`product/${_id}`}>
