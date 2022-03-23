@@ -40,7 +40,7 @@ const Cart: React.FC = (): JSX.Element => {
                     src={product.product.image}
                     alt={product.product.name}
                   />
-                  <div className="flex">
+                  <div className="flex justify-between w-full">
                     <div className="flex basis-2/3 flex-col justify-between ml-6">
                       <div>
                         <p>{product.product.name}</p>

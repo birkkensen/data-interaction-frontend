@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { ProductGrid } from "../components";
+import { ProductGrid, Filter } from "../components";
 import { getAllProducts } from "../api";
 import { Product } from "../interfaces";
 
 const Home: React.FC = (): JSX.Element => {
   const [products, setProducts] = useState<Product[]>();
-
+  // const [search, setSearch] = useState<{ search: string }>({
+  //   search: "",
+  // });
   useEffect(() => {
     getAllProducts()
       .then((data) => setProducts(data.data))
@@ -17,7 +19,10 @@ const Home: React.FC = (): JSX.Element => {
       <FeaturedImage />
       <div className="bg-white">
         <div className="max-w-2x1 mx-auto py-16 px-14 sm:py-24 sm:px-6 lg:max-w-7x1 lg:px-8">
-          <h2 className="text-stone-900 text-3xl mb-8 font-bold">Some stuff</h2>
+          <div className="flex flex-col w-full md:flex-row md:justify-between items-center mb-8">
+            <h2 className="text-stone-900 text-3xl mb-8 font-bold">Some stuff</h2>
+            <Filter />
+          </div>
           <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
             {products &&
               products.map((product) => {
