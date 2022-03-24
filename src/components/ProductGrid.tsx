@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { Product } from "../interfaces";
-const ProductGrid: React.FC<Product> = ({ _id, name, description, image, price }) => {
+import { IProduct } from "../interfaces";
+const ProductGrid: React.FC<IProduct> = ({ _id, name, description, image, price }) => {
   return (
     <Link className="group" to={`product/${_id}`}>
       <div className="w-full bg-gray-200 rounded-lg overflow-hidden">

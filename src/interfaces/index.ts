@@ -16,13 +16,21 @@ export interface CheckoutForm {
   expireDate: string;
 }
 
-export interface Product {
+export interface IProduct {
   _id: string;
   name: string;
   description: string;
   image: string;
   price: number;
   inStock?: boolean;
+}
+
+export interface ICart {
+  cartItems: {
+    qty: number;
+    _id: string;
+  }[];
+  products: IProduct[];
 }
 export interface CartItems {
   products: [
@@ -35,6 +43,7 @@ export interface CartItems {
         price: number;
       };
       _id: string;
+      qty: number;
     }
   ];
   _id: string;

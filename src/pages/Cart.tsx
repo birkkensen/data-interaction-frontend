@@ -3,12 +3,12 @@ import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { getCartItems, removeItemFromCart } from "../api";
-import { CartItems } from "../interfaces";
+import { ICart } from "../interfaces";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { BtnFullWidth, DisabledBtn } from "../components";
 
 const Cart: React.FC = (): JSX.Element => {
-  const [cart, setCart] = useState<CartItems>();
+  const [cart, setCart] = useState<ICart>();
   const cookies: Cookies = new Cookies();
   const cartId: Cookies | undefined = cookies.get("cartId");
   useEffect(() => {
@@ -18,7 +18,7 @@ const Cart: React.FC = (): JSX.Element => {
         .catch((err) => console.log(err));
     }
   }, [cartId]);
-
+  console.log(cart);
   const handleClick = async (id: string) => {
     await removeItemFromCart(cartId, id).catch((err) => console.log(err));
     window.location.reload();
@@ -30,27 +30,40 @@ const Cart: React.FC = (): JSX.Element => {
         {cart?.products.length ? <h2 className="text-3xl font-bold mb-6">Shopping Cart</h2> : ""}
         {cart?.products.length ? (
           cart.products.map((product, i) => {
-            sum += product.product.price;
+            sum += product.price * cart.cartItems[i].qty;
             return (
               <React.Fragment key={uuidv4()}>
                 <div className="h-0.5 w-full bg-gray-300 my-6"></div>
                 <div className="flex w-full justify-between">
                   <img
                     className="w-28 sm:max-w-[150px] rounded-md object-cover"
-                    src={product.product.image}
-                    alt={product.product.name}
+                    src={product.image}
+                    alt={product.name}
                   />
                   <div className="flex justify-between w-full">
                     <div className="flex basis-2/3 flex-col justify-between ml-6">
                       <div>
-                        <p>{product.product.name}</p>
-                        <p className="text-gray-500">{product.product.description}</p>
+                        <p>{product.name}</p>
+                        <p className="text-gray-500">{product.description}</p>
                       </div>
                       <p>Something</p>
                     </div>
 
                     <div className="flex basis-1/3 flex-col justify-between text-right">
-                      <p>{product.product.price}.00 kr</p>
+                      <p>{product.price}.00 kr</p>
+                      <form action="/action_page.php">
+                        <label htmlFor="quantity">Qty</label>
+                        <input
+                          type="number"
+                          id="quantity"
+                          name="quantity"
+                          value={cart.cartItems[i].qty}
+                          readOnly
+                          min="1"
+                          max="100"
+                          className="text-center border-2 border-purple-600 rounded-lg ml-2"
+                        />
+                      </form>
                       <button
                         onClick={() => {
                           handleClick(cart.products[i]._id);
@@ -74,13 +87,7 @@ const Cart: React.FC = (): JSX.Element => {
   );
 };
 
-const SumOfProducts = ({
-  sum,
-  cart,
-}: {
-  sum: number;
-  cart: CartItems | undefined;
-}): JSX.Element => {
+const SumOfProducts = ({ sum, cart }: { sum: number; cart: ICart | undefined }): JSX.Element => {
   return (
     <section className="flex flex-col w-full">
       <div className="h-0.5 w-full bg-gray-300 my-6"></div>

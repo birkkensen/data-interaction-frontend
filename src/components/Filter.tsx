@@ -1,19 +1,17 @@
 import { AiOutlineSearch } from "react-icons/ai";
-import { useState } from "react";
-const Filter = () => {
-  const [formData, setFormData] = useState<{ search: string }>({
-    search: "",
-  });
+import { useState, Dispatch, SetStateAction } from "react";
+interface Props {
+  setSearch: Dispatch<SetStateAction<string>>;
+}
+const Filter: React.FC<Props> = ({ setSearch }): JSX.Element => {
+  const [formData, setFormData] = useState<string>("");
 
-  const { search } = formData;
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+    setSearch(formData);
   };
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
+    setFormData(e.target.value);
   };
   return (
     <>
@@ -25,7 +23,7 @@ const Filter = () => {
           type="text"
           name="search"
           id="search"
-          value={search}
+          value={formData}
           onChange={handleChange}
           className="focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2 sm:text-sm border-gray-300 rounded-full"
           placeholder="Search..."

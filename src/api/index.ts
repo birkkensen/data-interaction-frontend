@@ -17,6 +17,14 @@ const getAllProducts = async (): Promise<AxiosResponse> => {
   return response;
 };
 
+const getProductsByName = async (query: string): Promise<AxiosResponse> => {
+  const response = await axios({
+    method: "get",
+    url: `${BASE_URL_PRODUCTS}/${query}`,
+  });
+  return response;
+};
+
 const getProductById = async (id: string | undefined): Promise<AxiosResponse> => {
   const response = await axios({
     method: "get",
@@ -110,6 +118,7 @@ const clearCart = async (): Promise<number> => {
 
 export {
   getAllProducts,
+  getProductsByName,
   getProductById,
   addToCart,
   getCartItems,

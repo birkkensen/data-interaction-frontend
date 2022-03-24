@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-// import { useState } from "react";
 import { NotFound, Home, ProductPage, Cart, Login, Dashboard, Checkout } from "./pages";
 import { Navbar, Footer } from "./components";
 const App = () => {

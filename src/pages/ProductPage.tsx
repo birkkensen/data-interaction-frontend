@@ -2,11 +2,12 @@ import Cookies from "universal-cookie";
 import { useEffect, useState } from "react";
 import { useParams, Params } from "react-router-dom";
 import { getProductById, addToCart } from "../api";
-import { Product } from "../interfaces";
+import { IProduct } from "../interfaces";
+import { BtnFullWidth, DisabledBtn } from "../components";
 
 const ProductPage: React.FC = (): JSX.Element => {
-  const cookies = new Cookies();
-  const [product, setProduct] = useState<Product>();
+  const cookies: Cookies = new Cookies();
+  const [product, setProduct] = useState<IProduct>();
   const { id } = useParams<Readonly<Params<string>>>();
 
   useEffect(() => {
@@ -14,14 +15,14 @@ const ProductPage: React.FC = (): JSX.Element => {
       .then((data) => setProduct(data.data))
       .catch((err) => console.log(err));
   }, [id]);
-  const handleClick = async () => {
+
+  const handleClick = async (): Promise<void> => {
     await addToCart(id)
       .then((res) => {
         if (cookies.get("cartId")) return;
         cookies.set("cartId", res.data, { path: "/", expires: new Date(Date.now() + 86400000) });
       })
       .catch((err) => console.log(err));
-    window.location.reload();
   };
 
   return (
