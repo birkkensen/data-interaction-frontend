@@ -1,23 +1,10 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import Cookies from "universal-cookie";
 import Badge from "@mui/material/Badge";
 import { AiOutlineShoppingCart, AiOutlineUser } from "react-icons/ai";
-import { getCartItems } from "../api";
-import { CartItems } from "../interfaces";
+import { useGlobalContext } from "../hooks/GlobalCart";
 
 const Navbar = () => {
-  const cookies = new Cookies();
-  const cartId: Cookies = cookies.get("cartId");
-  const [productCount, setProductCount] = useState<number>(0);
-  useEffect(() => {
-    if (cartId) {
-      getCartItems(cartId).then((data) => {
-        const cart: CartItems = data.data;
-        setProductCount(cart?.products.length);
-      });
-    }
-  }, [cartId]);
+  const { cart } = useGlobalContext();
   return (
     <nav className="fixed top-0 w-full bg-indigo-600 flex justify-between items-center p-5 z-50">
       <div className="flex">
@@ -32,7 +19,7 @@ const Navbar = () => {
       </div>
       <div className="flex">
         <Link to="/cart">
-          <Badge badgeContent={productCount} color="primary">
+          <Badge badgeContent={cart?.totalQty} color="primary">
             <AiOutlineShoppingCart className="text-white text-3xl" />
           </Badge>
         </Link>

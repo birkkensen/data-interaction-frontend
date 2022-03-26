@@ -48,13 +48,12 @@ const ProductPage: React.FC = (): JSX.Element => {
                 <p className="text-gray-700">Perfect if you want a suite to your fella</p>
               </div>
             </div>
-            <button
-              disabled={!product.inStock}
-              onClick={handleClick}
-              className="w-full py-3 bg-cyan-600 text-white rounded-lg mb-6 transition duration-300 active:ease-in-out active:bg-cyan-500 active:scale-95"
-            >
-              {product.inStock ? "Add to cart" : "Out of stock"}
-            </button>
+            {product.inStock ? (
+              <BtnFullWidth onClick={handleClick} title="Add to cart" />
+            ) : (
+              <DisabledBtn title="Out of stock" />
+            )}
+            <div className="my-6"></div>
             {product.inStock && (
               <button className="w-full py-3 border-2 border-cyan-600 text-black rounded-lg transition duration-300 active:ease-in-out active:scale-95">
                 Buy now

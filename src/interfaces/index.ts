@@ -26,12 +26,22 @@ export interface IProduct {
 }
 
 export interface ICart {
-  cartItems: {
-    qty: number;
-    _id: string;
-  }[];
-  products: IProduct[];
+  products: [
+    {
+      _id: string;
+      name: string;
+      description: string;
+      image: string;
+      price: number;
+      inStock?: boolean;
+      qty: number;
+    }
+  ];
+  totalQty: number;
 }
+// export interface ICart {
+//   products: IProduct[];
+// }
 export interface CartItems {
   products: [
     {
