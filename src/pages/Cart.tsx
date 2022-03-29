@@ -23,11 +23,9 @@ const Cart: React.FC = (): JSX.Element => {
     }
   }, [cartId, setCart]);
 
-  console.log(cart);
-
   const handleOnChange = () => {};
-  const handleClick = async (id: string) => {
-    await removeItemFromCart(cartId, id).catch((err) => console.log(err));
+  const handleClick = async (productId: string) => {
+    await removeItemFromCart(cartId, productId).catch((err) => console.log(err));
     if (cartId) {
       getCartItems(cartId)
         .then((data) => {
@@ -36,13 +34,14 @@ const Cart: React.FC = (): JSX.Element => {
         .catch((err) => console.log(err));
     }
   };
-
+  let sum: number = 0;
   return (
     <section className="container mx-auto mt-32">
       <div className="flex flex-col items-center sm:mx-auto mx-4 sm:w-full md:w-4/6 lg:w-1/2">
         {cart?.products.length ? <h2 className="text-3xl font-bold mb-6">Shopping Cart</h2> : ""}
         {cart?.products.length ? (
           cart.products.map((product, i) => {
+            sum += product.price * product.qty;
             return (
               <React.Fragment key={uuidv4()}>
                 <div className="h-0.5 bg-gray-300 my-6"></div>
@@ -94,7 +93,7 @@ const Cart: React.FC = (): JSX.Element => {
         ) : (
           <h2 className="text-3xl font-bold mb-6">Oh no, your cart is empty!</h2>
         )}
-        <SumOfProducts totalPrice={0} cart={cart} />
+        <SumOfProducts totalPrice={sum} cart={cart} />
       </div>
     </section>
   );

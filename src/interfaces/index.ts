@@ -14,6 +14,39 @@ export interface CheckoutForm {
   creditCard: string;
   cvv: string;
   expireDate: string;
+  orderStatus: string;
+  transactionId: number;
+}
+export interface Orders {
+  formData: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    adress: string;
+    country: string;
+    zipcode: string;
+    phone: string;
+    creditCard: string;
+    cvv: string;
+    expireDate: string;
+    orderStatus: string;
+    transactionId: number;
+  };
+  cartItems: {
+    products: [
+      {
+        _id: string;
+        name: string;
+        description: string;
+        image: string;
+        price: number;
+        inStock?: boolean;
+        qty: number;
+        total: number;
+      }
+    ];
+    totalQty: number;
+  };
 }
 
 export interface IProduct {
@@ -39,22 +72,18 @@ export interface ICart {
   ];
   totalQty: number;
 }
-// export interface ICart {
-//   products: IProduct[];
-// }
-export interface CartItems {
+
+export interface ICheckout {
   products: [
     {
-      product: {
-        _id: string;
-        name: string;
-        description: string;
-        image: string;
-        price: number;
-      };
       _id: string;
+      name: string;
+      price: number;
       qty: number;
     }
   ];
-  _id: string;
+  totalQty: number;
 }
+// export interface ICart {
+//   products: IProduct[];
+// }

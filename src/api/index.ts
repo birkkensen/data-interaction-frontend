@@ -1,6 +1,6 @@
 import Cookies from "universal-cookie";
 import axios, { AxiosResponse } from "axios";
-import { CartItems, CheckoutForm } from "../interfaces";
+import { CheckoutForm, ICart } from "../interfaces";
 
 const BASE_URL_PRODUCTS: string = "http://localhost:8080/api/products";
 const BASE_URL_CART: string = "http://localhost:8080/api/cart";
@@ -57,15 +57,12 @@ const getCartItems = async (id: Cookies): Promise<AxiosResponse> => {
 
 const removeItemFromCart = async (
   cartId: Cookies | undefined,
-  id: string
+  productId?: string,
+  clearAll?: boolean
 ): Promise<AxiosResponse> => {
   const response = await axios({
     method: "delete",
-    url: `${BASE_URL_CART}`,
-    data: {
-      cartId,
-      id,
-    },
+    url: `${BASE_URL_CART}/?clear=${clearAll}&id=${productId}&cartId=${cartId}`,
   });
   return response;
 };
@@ -84,14 +81,14 @@ const loginUser = async (email: string, password: string): Promise<AxiosResponse
 
 const placeOrder = async (
   formData: CheckoutForm,
-  cartItems: CartItems | undefined
+  cartItems: ICart | undefined
 ): Promise<AxiosResponse> => {
   const response = await axios({
     method: "post",
     url: `${BASE_URL_EMPLOYEE}`,
     data: {
       formData,
-      products: cartItems,
+      cartItems,
     },
   });
   return response;

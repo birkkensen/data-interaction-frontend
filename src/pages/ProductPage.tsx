@@ -1,15 +1,17 @@
 import Cookies from "universal-cookie";
 import { useEffect, useState } from "react";
 import { useParams, Params } from "react-router-dom";
-import { getProductById, addToCart } from "../api";
+import { getProductById, addToCart, getCartItems } from "../api";
 import { IProduct } from "../interfaces";
-import { BtnFullWidth, DisabledBtn } from "../components";
-
+import { BtnFullWidth, DisabledBtn, Modal } from "../components";
+import { useGlobalContext } from "../hooks/GlobalCart";
 const ProductPage: React.FC = (): JSX.Element => {
   const cookies: Cookies = new Cookies();
   const [product, setProduct] = useState<IProduct>();
-  const { id } = useParams<Readonly<Params<string>>>();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  const { id } = useParams<Readonly<Params<string>>>();
+  const { setCart } = useGlobalContext();
   useEffect(() => {
     getProductById(id)
       .then((data) => setProduct(data.data))
@@ -17,10 +19,16 @@ const ProductPage: React.FC = (): JSX.Element => {
   }, [id]);
 
   const handleClick = async (): Promise<void> => {
+    setIsOpen(true);
     await addToCart(id)
       .then((res) => {
         if (cookies.get("cartId")) return;
         cookies.set("cartId", res.data, { path: "/", expires: new Date(Date.now() + 86400000) });
+      })
+      .then(async () => {
+        await getCartItems(cookies.get("cartId"))
+          .then((res) => setCart(res.data))
+          .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
   };
@@ -67,6 +75,7 @@ const ProductPage: React.FC = (): JSX.Element => {
           />
         </div>
       )}
+      <Modal name={product?.name} open={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 };
