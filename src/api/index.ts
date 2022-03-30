@@ -1,6 +1,6 @@
 import Cookies from "universal-cookie";
 import axios, { AxiosResponse } from "axios";
-import { CheckoutForm, ICart } from "../interfaces";
+import { CheckoutForm } from "../interfaces";
 
 const BASE_URL_PRODUCTS: string = "http://localhost:8080/api/products";
 const BASE_URL_CART: string = "http://localhost:8080/api/cart";
@@ -20,7 +20,7 @@ const getAllProducts = async (): Promise<AxiosResponse> => {
 const getProductsByName = async (query: string): Promise<AxiosResponse> => {
   const response = await axios({
     method: "get",
-    url: `${BASE_URL_PRODUCTS}/${query}`,
+    url: `${BASE_URL_PRODUCTS}/?name=${query}`,
   });
   return response;
 };
@@ -79,16 +79,14 @@ const loginUser = async (email: string, password: string): Promise<AxiosResponse
   return response;
 };
 
-const placeOrder = async (
-  formData: CheckoutForm,
-  cartItems: ICart | undefined
-): Promise<AxiosResponse> => {
+const placeOrder = async (formData: CheckoutForm): Promise<AxiosResponse> => {
+  const cartId: Cookies = cookies.get("cartId");
   const response = await axios({
     method: "post",
     url: `${BASE_URL_EMPLOYEE}`,
     data: {
       formData,
-      cartItems,
+      cartId,
     },
   });
   return response;
@@ -113,6 +111,14 @@ const clearCart = async (): Promise<number> => {
   return response.status;
 };
 
+const updateOrder = async (cartId: string): Promise<number> => {
+  const response = await axios({
+    method: "post",
+    url: `${BASE_URL_EMPLOYEE}/${cartId}`,
+  });
+  return response.status;
+};
+
 export {
   getAllProducts,
   getProductsByName,
@@ -124,4 +130,5 @@ export {
   getAllOrders,
   placeOrder,
   clearCart,
+  updateOrder,
 };

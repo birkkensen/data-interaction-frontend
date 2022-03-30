@@ -1,13 +1,11 @@
-import { useState, useEffect } from "react";
-import { CheckoutForm, ICart } from "../interfaces";
-import { placeOrder, getCartItems, removeItemFromCart } from "../api";
+import { useState } from "react";
+import { CheckoutForm } from "../interfaces";
+import { placeOrder, removeItemFromCart } from "../api";
 import Cookies from "universal-cookie";
 
 const Checkout = () => {
   const cookies: Cookies = new Cookies();
   const cartId: Cookies = cookies.get("cartId");
-  const [cart, setCart] = useState<ICart>();
-  // Random number transaction id between 1 and 10000
   const transactionId: number = Math.floor(Math.random() * 10000) + 1;
   const [formData, setFormData] = useState<CheckoutForm>({
     firstName: "",
@@ -23,12 +21,6 @@ const Checkout = () => {
     orderStatus: "Processing",
     transactionId: transactionId,
   });
-
-  useEffect(() => {
-    getCartItems(cartId)
-      .then((data) => setCart(data.data))
-      .catch((err) => console.log(err));
-  }, [cartId]);
 
   const {
     firstName,
@@ -53,8 +45,7 @@ const Checkout = () => {
   };
   const onSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    await placeOrder(formData, cart)
-      .then((res) => console.log(res.data))
+    await placeOrder(formData)
       .then(async () => {
         await removeItemFromCart(cartId, "", true);
         cookies.remove("cartId");

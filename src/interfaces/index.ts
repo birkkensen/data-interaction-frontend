@@ -18,6 +18,7 @@ export interface CheckoutForm {
   transactionId: number;
 }
 export interface Orders {
+  _id: string;
   formData: {
     firstName: string;
     lastName: string;
@@ -32,17 +33,11 @@ export interface Orders {
     orderStatus: string;
     transactionId: number;
   };
-  cartItems: {
-    products: [
+  cart: {
+    cartItems: [
       {
         _id: string;
-        name: string;
-        description: string;
-        image: string;
-        price: number;
-        inStock?: boolean;
         qty: number;
-        total: number;
       }
     ];
     totalQty: number;

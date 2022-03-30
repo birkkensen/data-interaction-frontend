@@ -18,7 +18,7 @@ const ProductPage: React.FC = (): JSX.Element => {
       .catch((err) => console.log(err));
   }, [id]);
 
-  const handleClick = async (): Promise<void> => {
+  const handleClick = async (buyNow: boolean): Promise<void> => {
     setIsOpen(true);
     await addToCart(id)
       .then((res) => {
@@ -26,6 +26,9 @@ const ProductPage: React.FC = (): JSX.Element => {
         cookies.set("cartId", res.data, { path: "/", expires: new Date(Date.now() + 86400000) });
       })
       .then(async () => {
+        if (buyNow) {
+          window.location.href = "/cart/checkout";
+        }
         await getCartItems(cookies.get("cartId"))
           .then((res) => setCart(res.data))
           .catch((err) => console.log(err));
@@ -57,13 +60,18 @@ const ProductPage: React.FC = (): JSX.Element => {
               </div>
             </div>
             {product.inStock ? (
-              <BtnFullWidth onClick={handleClick} title="Add to cart" />
+              <BtnFullWidth onClick={() => handleClick(false)} title="Add to cart" />
             ) : (
               <DisabledBtn title="Out of stock" />
             )}
             <div className="my-6"></div>
             {product.inStock && (
-              <button className="w-full py-3 border-2 border-cyan-600 text-black rounded-lg transition duration-300 active:ease-in-out active:scale-95">
+              <button
+                onClick={() => {
+                  handleClick(true);
+                }}
+                className="w-full py-3 border-2 border-cyan-600 text-black rounded-lg transition duration-300 active:ease-in-out active:scale-95"
+              >
                 Buy now
               </button>
             )}
